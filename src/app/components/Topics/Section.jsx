@@ -88,8 +88,8 @@ function Section() {
               onDoubleClick={() => setIsOverViewOpen(false)}
               className="text-blue-900 fixed inset-0 bg-black/70 z-50  flex items-center justify-center"
             >
-              <iframe src="https://docs.google.com/document/d/1ZB0Pm3qteEzj7nXhV72FUPtVMoyZyXxoXWXjnl7ecUM/edit?usp=sharing" width="100%" height="600px" 
-                className=" w-8/12 h-full"
+              <iframe src="https://docs.google.com/document/d/1ZB0Pm3qteEzj7nXhV72FUPtVMoyZyXxoXWXjnl7ecUM/edit?usp=sharing" 
+                className=" w-full h-8/12 md:w-8/12 md:h-9/12"
               ></iframe>
 
             </div>
