@@ -44,17 +44,51 @@ function Exam(props) {
       correctAnswer: "<br>",
     },
   ];
-  const [currentQuestion, setCurrentQuestion] = React.useState(0);
+  const [currentQuestion, setCurrentQuestion] = React.useState(() => {
+    try {
+      const saved = localStorage.getItem("currentQuestion");
+      return saved !== null ? parseInt(saved) : 0;
+    } catch (error) {
+      console.error("Error reading from localStorage:", error);
+      return 0;
+    }
+  });
+
+  React.useEffect(() => {
+    const saveToStorage = () => {
+      try {
+        localStorage.setItem("currentQuestion", currentQuestion.toString());
+      } catch (error) {
+        console.error("Error saving to localStorage:", error);
+      }
+    };
+
+    // Save on change
+    saveToStorage();
+
+    // Save on unmount
+    return () => {
+      saveToStorage();
+    };
+  }, [currentQuestion]);
+  
 
   return (
     <div
       onDoubleClick={() => props.setIsExamOpen(false)}
       className=" fixed inset-0 bg-black/70 z-50  flex items-center justify-center "
     >
-      <div className="flex flex-col items-center justify-between bg-[#445bc2] text-white p-4 rounded-md w-full h-10/12 md:w-8/12  ">
-        <div className="flex-1/12 flex flex-row">
-          <ArrowLeft />
-          <div className=" flex flex-row justify-items-center ">
+      <div className="flex flex-col items-center justify-between gap-4 bg-[#445bc2] text-white p-4 rounded-md w-full h-10/12 md:w-8/12  ">
+        <div className="flex-1/12 flex flex-row items-center justify-between w-full px-5 ">
+          <ArrowLeft
+            className="cursor-pointer hover:text-[#445bc2] hover:bg-white rounded-full p-2 bg-transparent w-10 h-10"
+            onClick={() => {
+              if (currentQuestion > 0) {
+                setCurrentQuestion(currentQuestion - 1);
+              }
+            }}
+          />
+          <div className="flex my-3 px-6 py-1 items-center bg-yellow-400 rounded-lg">
             <Clock />
             10:00
           </div>
@@ -64,10 +98,14 @@ function Exam(props) {
             return (
               <span
                 key={i + 10}
-              className={"text-base md:text-lg rounded-full px-5 py-3.5 border border-solid border-white mx-2 " + (currentQuestion === i? "bg-white text-[#445bc2] " : "")}
-            >
-              {i + 1}
-            </span>);
+                className={
+                  "text-base md:text-lg rounded-full px-5 py-3.5 border border-solid border-white mx-2 " +
+                  (currentQuestion === i ? "bg-white text-[#445bc2] " : "")
+                }
+              >
+                {i + 1}
+              </span>
+            );
           })}
         </div>
         <div className="text-black bg-white p-4 rounded-md w-full flex-10/12 flex flex-col">
@@ -80,22 +118,15 @@ function Exam(props) {
               <div
                 key={index}
                 className="flex flex-row items-center  shadow-[0_0_5px_gray] hover:bg-[#5c7aff] transition-all duration-300 py-5 rounded-lg  px-7"
+                onClick={() => {
+                  if (currentQuestion < htmlQuestions.length - 1) {
+                    setCurrentQuestion(currentQuestion + 1);
+                  } else {
+                    props.setIsExamOpen(false);
+                  }
+                }}
               >
-                <input
-                  type="radio"
-                  name="answer"
-                  id={index}
-                  value={choice}
-                  className=" mr-2"
-                  onChange={() => {
-                    if (currentQuestion < htmlQuestions.length - 1){
-                      setCurrentQuestion(currentQuestion + 1)
-                    }else {props.setIsExamOpen(false)}
-                  }}
-                />
-                <label htmlFor={index} className="text-lg md:text-xl ">
-                  {choice}
-                </label>
+                {choice}
               </div>
             ))}
           </div>

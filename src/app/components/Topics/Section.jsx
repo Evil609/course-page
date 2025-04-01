@@ -88,7 +88,10 @@ function Section() {
               onDoubleClick={() => setIsOverViewOpen(false)}
               className="text-blue-900 fixed inset-0 bg-black/70 z-50  flex items-center justify-center"
             >
-              <PDFlink src={fileUrl} className="w-full h-full" />
+              <iframe src="https://docs.google.com/document/d/1ZB0Pm3qteEzj7nXhV72FUPtVMoyZyXxoXWXjnl7ecUM/edit?usp=sharing" width="100%" height="600px" 
+                className=" w-8/12 h-full"
+              ></iframe>
+
             </div>
           )}
           <div className="flex justify-between items-center py-6 border-b border-solid border-gray-400">
