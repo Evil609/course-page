@@ -3,34 +3,34 @@ import Image from "next/image";
 import { MessageSquare, Book, BarChart2, HelpCircle } from "react-feather";
 import ReactPlayer from "react-player/lazy";
 import { Link as ScrollLink, Element } from "react-scroll";
-import Link from "next/link";
-import { useWindowSize } from "react-use";
+
 
 function CurriculumContent() {
   const [isAskOpen, setIsAskOpen] = React.useState(false);
   const [isLeaderboardOpen, setIsLeaderboardOpen] = React.useState(false);
-  const { width } = useWindowSize();
+  const [isPlay, setIsPlay] = React.useState(false);
 
 
   return (
-    <div className="w-full flex flex-col justify-center items-start">
+    <div className="w-full flex flex-col justify-center items-start ">
       <div id="course-path" className="text-gray-800">
         Home &gt; Courses &gt; Course Details
       </div>
       <div id="video-title" className="text-3xl font-bold py-4 ">
         Starting SEO at your Home
       </div>
-      <div className="w-full h-80 md:h-[512px] 2xl:h-[600px] rounded-lg overflow-hidden">
+      <div className={"w-full h-80 md:h-[360px] lg:h-[480px] xl:h-[540px] 2xl:h-[600px] rounded-lg z-50 overflow-hidden " + (isPlay? "sticky top-2" : "" )}>
         <ReactPlayer
           url="https://youtu.be/Ff-Wz-rEb0U?si=NpzfFpzaNaATJaOs"
           width="100%"
           height="100%"
           light={true}
           playing={true}
+          onPlay={() => setIsPlay(true)}
+          onPause={() => setIsPlay(false)}
+          onEnded={() => setIsPlay(false)}
           controls={true}
-          fallback={true}
-        
-        />
+        />  
       </div>
       <div className="flex justify-between items-center w-52 py-4">
         <ScrollLink
@@ -51,7 +51,7 @@ function CurriculumContent() {
         </ScrollLink>
         <button
           id="ask-question"
-          onClick={() => setIsAskOpen(true)}
+          onClick={() => {setIsAskOpen(true); setIsPlay(false)}}
           className="shadow shadow-gray-700 text-gray-500 rounded-full p-2.5 w-10 h-10 cursor-pointer hover:bg-gray-200 active:bg-gray-300 transition"
         >
           <HelpCircle className="w-5 h-5" />
@@ -76,7 +76,7 @@ function CurriculumContent() {
         {/* /////////////////////////////////////////////// */}
         <button
           id="leaderboard"
-          onClick={() => setIsLeaderboardOpen(true)}
+          onClick={() => {setIsLeaderboardOpen(true); setIsPlay(false)}}
           className="shadow shadow-gray-700 text-gray-500 rounded-full p-2.5 w-10 h-10 cursor-pointer hover:bg-gray-200 active:bg-gray-300 transition"
         >
           <BarChart2 className="w-5 h-5" />
@@ -84,10 +84,10 @@ function CurriculumContent() {
         {/* /////////////////////////////////////////////// Pop up for Leaderboard ////////// */}
         {isLeaderboardOpen && (
           <div
-            onDoubleClick={() => setIsLeaderboardOpen(false)}
+            onClick={() => setIsLeaderboardOpen(false)}
             className="text-blue-900 fixed inset-0 bg-black/70 z-50  flex items-center justify-center"
           >
-            <div className="flex flex-col justify-between items-center bg-white p-6 gap-5 rounded-lg w-lg md:w-xl ">
+            <div className="flex flex-col justify-between items-center bg-white p-6 gap-5 rounded-lg w-full md:w-xl ">
               <div className="flex flex-col justify-center items-center w-full">
                 <p className="text-lg ">Course Name Shown Here</p>
                 <p className="text-lg font-bold">Leaderboard</p>

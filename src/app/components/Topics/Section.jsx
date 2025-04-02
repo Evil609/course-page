@@ -1,9 +1,10 @@
 import React from "react";
 import { Lock, FileText, Plus, Minus } from "react-feather";
-import { Link as PDFlink } from "@react-pdf/renderer";
 import Exam from "./Exam";
+import { useWindowSize } from "react-use";
 
-function Section() {
+function Section(props) {
+  const { width } = useWindowSize();
   const [hideButton, setHideButton] = React.useState(
     <Minus className="w-5 h-5" />
   );
@@ -23,6 +24,13 @@ function Section() {
   const [isOverViewOpen, setIsOverViewOpen] = React.useState(false);
   const fileUrl = "/MahmoudEssam.pdf";
   const [isExamOpen, setIsExamOpen] = React.useState(false);
+
+  React.useEffect(() => {
+    if (props.num !== 1 && width < 768) {
+      handleHide()
+    }
+  }, [width]);
+
   return (
     <div className="text-lg text-gray-700 border-solid border border-gray-300 rounded-sm pb-12 p-8 mt-10">
       <div className="">
@@ -75,23 +83,25 @@ function Section() {
               <FileText className="w-5 h-5 mr-2" />
               Course OverView
             </p>
-            <span className="bg-emerald-50 text-emerald-500 px-3 py-1.5 rounded-md  text-sm">
-              0 QUESTION
-            </span>
-            <span className="bg-rose-50 text-red-500 px-3 py-1.5 rounded-md text-sm ">
-              10 MINUTES
-            </span>
+            <div className="flex flex-col xl:flex-row">
+              <span className="bg-emerald-50 text-emerald-500 px-3 py-1.5 rounded-md text-[10px] xl:text-sm">
+                0 QUESTION
+              </span>
+              <span className="bg-rose-50 text-red-500 px-3 py-1.5 rounded-md text-[10px] xl:text-sm ">
+                10 MINUTES
+              </span>
+            </div>
           </div>
 
           {isOverViewOpen && (
             <div
-              onDoubleClick={() => setIsOverViewOpen(false)}
+              onClick={() => setIsOverViewOpen(false)}
               className="text-blue-900 fixed inset-0 bg-black/70 z-50  flex items-center justify-center"
             >
-              <iframe src="https://docs.google.com/document/d/1ZB0Pm3qteEzj7nXhV72FUPtVMoyZyXxoXWXjnl7ecUM/edit?usp=sharing" 
+              <iframe
+                src="https://docs.google.com/document/d/1ZB0Pm3qteEzj7nXhV72FUPtVMoyZyXxoXWXjnl7ecUM/edit?usp=sharing"
                 className=" w-full h-8/12 md:w-8/12 md:h-9/12"
               ></iframe>
-
             </div>
           )}
           <div className="flex justify-between items-center py-6 border-b border-solid border-gray-400">
@@ -118,9 +128,7 @@ function Section() {
             </p>
             <Lock className="w-5 h-5 text-2xl" />
           </div>
-          {isExamOpen && (
-            <Exam  setIsExamOpen={setIsExamOpen}/>
-          )}
+          {isExamOpen && <Exam setIsExamOpen={setIsExamOpen} />}
         </div>
       </div>
     </div>

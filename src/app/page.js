@@ -36,8 +36,8 @@ export default function Home() {
   }, [isPc , width]);
 
   return (
-    <div className="p-8 select-none scroll-smooth scroll-">
-      <div className="flex flex-col md:flex-row gap-6">
+    <div className="p-2 md:p-4 xl:p-8">
+      <div className="flex flex-col md:flex-row gap-2 2xl:gap-4 relative">
         {render}
       </div>
     </div>

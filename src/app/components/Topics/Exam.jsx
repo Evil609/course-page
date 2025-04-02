@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowLeft, Clock } from "react-feather";
+import { ArrowLeft, Clock , X} from "react-feather";
 
 function Exam(props) {
   const htmlQuestions = [
@@ -92,6 +92,7 @@ function Exam(props) {
             <Clock />
             10:00
           </div>
+          <X onClick={() => props.setIsExamOpen(false)} className="cursor-pointer hover:text-[#445bc2] hover:bg-white rounded-full p-2 bg-transparent w-10 h-10" />
         </div>
         <div className="flex-1/12">
           {htmlQuestions.map((_, i) => {
